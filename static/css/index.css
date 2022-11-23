@@ -28,3 +28,22 @@ body {
 									   to(#2b26ca),
 									   color-stop(.6,#2b26ca))
 }
+
+#map {
+    margin: 0 auto;
+    height: 550px;
+    border-radius: 25px;
+}
+
+.float-button {
+    border-radius: 15px;
+    background-color: #ffffff;
+    position: absolute;
+    z-index: 10;
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.float-img {
+    margin: 10px;
+}
