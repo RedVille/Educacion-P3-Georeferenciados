@@ -5,9 +5,50 @@
 
 {% block content %}
 {{block.super}}
+
+<style>
+
+        #grafico {
+            background-color: gray;
+            border-radius: 10px;
+            margin: 2;
+            height: 50%;
+            width: 100%;
+        }
+
+        #map {
+            border-radius: 20px;
+            margin: 0 auto;
+            height: 70vh;
+            width: 100%;
+        }
+</style>
   
 <div class="container-fluid" style="margin-top: 50px;">
-    Clusters
+    <div class="row">
+        <div class="col-11 col-sm-9">
+            <div id="map"></div>
+        </div>
+        <div class="col" style="display: flex; flex-direction: column; gap: 5%;">
+            <div id="grafico"></div>
+                <select id="cluster" name="cluster">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            <button type="button" class="btn btn-secondary">Aceptar</button>
+        </div>
+    </div>
 </div>
 
+<script>
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: { lat: 21.126366, lng: -101.670125 },
+            });
+        }
+    </script>
 {% endblock %}
