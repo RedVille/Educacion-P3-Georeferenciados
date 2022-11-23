@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Welcome!{% endblock %}
+
+{% block content %}
+{{block.super}}
+  
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col" style="box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.116); margin: 30px; padding: 70px; border-radius: 20px; background-color: rgba(255, 255, 255, 0.242);">
+            <h4>¡Bienvenido!</h4>
+            <h5 class="">¿De qué trata?</h5>
+            <p style="margin-top: 30px;">asfkjsdhgfnsjdkghsnjgksnhgjsgnhsdjgksdhnfjdsfknsma,cfnafjmknfdsmnds fdsmnscm,</p>
+            <p style="margin-top: 30px;">Christian Serrano | Yareli Ramírez | Yanet Rojo | Francisco Salazar | Víctor Neváres</p>
+        </div>
+        <div class="col">
+            <img src="../static/images/States_of_Mexico_(black_border).png" style="border-radius: 10px;" width="570px" alt="meteorite">
+        </div>
+      </div>
+</div>
+
+{% endblock %}

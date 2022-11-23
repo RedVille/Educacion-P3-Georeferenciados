@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock %} | EducaciónApp
+    </title>
+
+    <link rel="icon" href="../static/images/educacion.png">
+      {% block links %}{% endblock %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+</head>
+<body class="scroll">		
+
+  <nav class="shadow navbar navbar-expand-lg">
+    <div class="container-fluid">
+      
+      <a class="navbar-brand" href="/">
+        <img src="../static/images/educacion.png" alt="" width="25" height="25" class="d-inline-block align-text-top">
+        Educación App
+      </a>
+
+      <div>
+        <div class="navbar-nav">
+          <a class="nav-link" href="/">Inicio</a>
+          <a class="nav-link" href="/clusters">Clusters</a>
+          <a class="nav-link" href="/svm">SVM</a>
+        </div>
+      </div>
+
+    </div>
+  </nav>    
+
+      <div id="content" style="margin-bottom: 100px;">
+        {% block content %}
+        
+        {% endblock %}
+        <!--Codigo que viene de template-->
+        <!--Todo lo que quieran agregar que sea dinámico, se agrega en un block-->
+    </div>
+
+    <footer class="shadow" style="padding: 30px; background-color: #ffffff;">
+      <p>© Mariachis de Guadalajara</p>
+      <p>
+        Proyecto Final | Sistemas Geo-referenciados
+      </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+</body>
+</html>
