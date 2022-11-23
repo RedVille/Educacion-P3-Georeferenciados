@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('clusters/', views.clusters, name='clusters'),
-    path('svm/', views.svm, name='svm'),
+    path('svm/', views.modeloSVM, name='svm'),
 ]

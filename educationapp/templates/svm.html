@@ -7,7 +7,99 @@
 {{block.super}}
   
 <div class="container-fluid" style="margin-top: 50px;">
-    SVM
+    
+    <a class="float-button" href="/">
+        <img class="float-img" width="40px" src="../static/images/info.png" alt="porcentaje">
+    </a>
+
+    <div style="margin: 70px;">
+
+        <div class="row">
+            <div class="col-9">
+                <div id="map"></div>
+            </div>
+            <div class="col-3">
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <h1 style="font-weight: bold; margin-top: 185px; text-align: center;">%</h1>
+                    <button style="margin-top: 265px; border-color: black; border-radius: 10px; color: white; background-color: black;" class="btn" type="submit">Entrenar modelo</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.116); margin-top: 30px; padding: 30px; border-radius: 20px; background-color: rgba(255, 255, 255, 0.603);">
+            <form action="/entrenar-modelo" method="POST">
+                <div class="row" style="width: 100%;  margin: 15px 0;">
+                    <div class="col">
+                        <label style="font-weight: bold;">Género:</label>
+                        <br>
+                        <input name="radiogenero" type="radio"/>
+                        <img src="../static/images/femenina.png" height="20px" width="20px">
+                        <input style="margin-left: 20px;" name="radiogenero" type="radio"/>
+                        <img src="../static/images/masculino.png" height="20px" width="23px">
+                        <br><br>
+                        <label style="font-weight: bold;">Nivel de estudios de tus tutores:</label>
+                        <br>
+                        <input name="radio" type="radio"/>
+                        <label for="radio">Básico</label>
+                        <input style="margin-left: 20px;" name="radio" type="radio"/>
+                        <label for="radio">Medio superior y más</label>
+                    </div>
+                    <div class="col">
+                        <br>
+                        <input name="hijos" type="checkbox"/>
+                        <label for="hijos">Tiene hijxs</label>
+                        <br>
+                        <br>
+                        <input name="independiente" type="checkbox"/>
+                        <label for="independiente">Es independiente</label>
+                        <br>
+                        <br>
+                        <input name="dificultad" type="checkbox"/>
+                        <label for="dificultad">Dificultad para conseguir trabajo</label>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        
+    </div>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw1Fti-DJpKLBumD9Q4HPhk_rmOO3xyPw&callback=initMap" async defer></script>
+
+    <script>
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 4,
+                center: { lat: 37.0902, lng: -95.7129 },
+            });
+            setMarkers(map);
+        }
+
+        function setMarkers(map) {
+            const image = {
+                url: "https://img.icons8.com/officel/35/sci-fi.png",
+                size: new google.maps.Size(35, 35),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(0, 35),
+            };
+
+            const shape = {
+                coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                type: "poly",
+            };
+            
+            {% for point in points %}
+                let marker{{ point.id }} = new google.maps.Marker({
+                    position: { lat: {{ point.lat }}, lng: {{ point.lng }} },
+                    map,
+                    icon: image,
+                    shape: shape,
+                    zIndex: 1,
+                })
+            {% endfor %}
+        }
+    </script>
 </div>
 
 {% endblock %}
