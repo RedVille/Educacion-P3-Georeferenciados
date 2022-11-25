@@ -30,15 +30,29 @@
             <div id="map"></div>
         </div>
         <div class="col" style="display: flex; flex-direction: column; gap: 5%;">
-            <div id="grafico"></div>
+            <div 
+                id="grafico"
+            >
+                <img src="data:image/png;base64,{{ data }}" alt="Gráfico" style="width: 100%; height: 100%;">
+            </div>
+            <form
+                action="{% url 'clusters' %}"
+                method="POST"
+                style="display: flex; flex-direction: column; gap: 5%;"
+            >
                 <select id="cluster" name="cluster">
                     <option value="1" selected>1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
                 </select>
-            <button type="button" class="btn btn-secondary">Aceptar</button>
+                <button type="submit" class="btn btn-secondary">Aceptar</button>
+            </form>
         </div>
     </div>
 </div>
@@ -49,6 +63,23 @@
                 zoom: 13,
                 center: { lat: 21.126366, lng: -101.670125 },
             });
+            addMarkers(map);
+        }
+
+        function addMarkers(map) {
+            {% for point in X %}
+                const icon{{ point.index }} = {
+                    url: {{ markers_icons | safe }}[{{ y_kmeans | safe }}[{{ point.index }}]],
+                    scaledSize: new google.maps.Size(25, 25),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(0, 0),
+                };
+                const marker{{ point.index }} = new google.maps.Marker({
+                    position: { lat: {{ point.lat }}, lng: {{ point.lon }} },
+                    map,
+                    icon: icon{{ point.index }},
+                });
+            {% endfor %}   
         }
     </script>
 {% endblock %}

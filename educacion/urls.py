@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('clusters/', views.clusters, name='clusters'),
     path('svm/', views.modeloSVM, name='svm'),
+    path("data/", views.get_data, name="data"),
 ]
