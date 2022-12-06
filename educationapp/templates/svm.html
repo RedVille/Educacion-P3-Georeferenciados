@@ -82,30 +82,22 @@
                 zoom: 13,
                 center: { lat: 21.126366, lng: -101.670125 },
             });
-            setMarkers(map);
+            //setMarkers(map);
         }
 
-        function setMarkers(map) {
-            const image = {
-                url: "https://img.icons8.com/officel/35/sci-fi.png",
-                size: new google.maps.Size(35, 35),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(0, 35),
-            };
-
-            const shape = {
-                coords: [1, 1, 1, 20, 18, 20, 18, 1],
-                type: "poly",
-            };
-            
-            {% for point in points %}
-                let marker{{ point.id }} = new google.maps.Marker({
-                    position: { lat: {{ point.lat }}, lng: {{ point.lng }} },
+        function setMarkers(map) {            
+            {% for point in datosGenerales %}
+                const icon{{ point.id }} = {
+                    url: {{ markers_icons | safe }}[{{ point.estudios | safe }}],
+                    scaledSize: new google.maps.Size(25, 25),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(0, 0),
+                };
+                const marker{{ point.id }} = new google.maps.Marker({
+                    position: { lat: {{ point.latitude }}, lng: {{ point.longitude }} },
                     map,
-                    icon: image,
-                    shape: shape,
-                    zIndex: 1,
-                })
+                    icon: icon{{ point.id }},
+                });
             {% endfor %}
         }
     </script>

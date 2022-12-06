@@ -258,12 +258,15 @@ def modeloSVM(request):
     #posgrado = dfPersonas[dfPersonas.estudios == 2]
     datosGenerales = pd.DataFrame(personas)
 
-    if request.method == 'POST':
-
-        markers_icons = [
+    markers_icons = [
+        "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
         "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
         "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
-        ]
+    ]
+
+    if request.method == 'POST':
 
         #Agregar personas clasificadas
         #HOMBRES
@@ -294,10 +297,10 @@ def modeloSVM(request):
         if request.POST.get('dificultad') == "1":
            datosGenerales = datosGenerales[datosGenerales.dificultad_trabajo == 1]                                 
 
-        personasPosgrado = datosGenerales[datosGenerales.estudios == 4]
-        personasNoPosgrado = datosGenerales[datosGenerales.estudios != 4]
+        #personasPosgrado = datosGenerales[datosGenerales.estudios == 4]
+        #personasNoPosgrado = datosGenerales[datosGenerales.estudios != 4]
 
-        return render(request, "svm.html",{ "personasPosgrado" : personasPosgrado, "personasNoPosgrado" : personasNoPosgrado})
+        return render(request, "svm.html",{ "datosGenerales" : datosGenerales, 'markers_icons': markers_icons})
 
-    return render(request, "svm.html",{ "personasPosgrado" : [], "personasNoPosgrado" : []})
+    return render(request, "svm.html",{ "datosGenerales" : [], 'markers_icons': markers_icons})
 
