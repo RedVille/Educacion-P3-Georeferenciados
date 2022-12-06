@@ -5,11 +5,18 @@
 
 {% block content %}
 {{block.super}}
-  
+<style>
+    #map {
+        border-radius: 20px;
+        margin: 0 auto;
+        height: 70vh;
+        width: 100%;
+    }
+</style>
 <div class="container-fluid" style="margin-top: 50px;">
     
     <a class="float-button" href="/">
-        <img class="float-img" width="40px" src="../static/images/info.png" alt="porcentaje">
+        <img class="float-img" width="35px" src="../static/images/info.png" alt="porcentaje">
     </a>
 
     <div style="margin: 70px;">
@@ -20,47 +27,49 @@
             </div>
             <div class="col-3">
                 <div style="display: flex; flex-direction: column; gap: 5px;">
-                    <h1 style="font-weight: bold; margin-top: 185px; text-align: center;">%</h1>
-                    <button style="margin-top: 265px; border-color: black; border-radius: 10px; color: white; background-color: black;" class="btn" type="submit">Entrenar modelo</button>
+                    <div style="box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.116);  padding: 10px; border-radius: 20px; background-color: rgba(255, 255, 255, 0.603);">
+                        <form action="{% url 'svm' %}"
+                         method="POST">
+                            <div class="row" style="width: 100%;  margin: 15px 0;">
+                                <div class="col">
+                                    <label style="font-weight: bold;">Género:</label>
+                                    <br>
+                                    <input name="radiogenero" type="radio" value="2"/>
+                                    <img src="../static/images/femenina.png" height="20px" width="20px">
+                                    <input style="margin-left: 20px;" name="radiogenero" type="radio" value="1"/>
+                                    <img src="../static/images/masculino.png" height="20px" width="23px">
+                                    <br><br><br>
+                                    <label style="font-weight: bold;">Nivel de estudios de tus tutores:</label>
+                                    <br>
+                                    <input style="margin-left: 20px;" name="radio" type="radio" value="1"/>
+                                    <label for="radio">Básico</label>
+                                    <br>
+                                    <input style="margin-left: 20px;" name="radio" type="radio" value="2"/>
+                                    <label for="radio">Medio superior y más</label>
+                                    <br> <br><br>
+                                    <label style="font-weight: bold;">Otros:</label>
+                                    <br>
+                                    <input name="hijos" type="checkbox" value="1"/>
+                                    <label for="hijos">Tiene hijxs</label>
+                                    <br>
+                                    <input name="independiente" type="checkbox" value="1"/>
+                                    <label for="independiente">Es independiente</label>
+                                    <br>
+                                    <input name="dificultad" type="checkbox" value="1"/>
+                                    <label for="dificultad">Dificultad para conseguir trabajo</label>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <button style="margin-top: 4.7rem;  border-color: black; border-radius: 10px; color: white; background-color: black;" class="btn" type="submit">Clasificar</button>
+
+                            </div>
+            
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div style="box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.116); margin-top: 30px; padding: 30px; border-radius: 20px; background-color: rgba(255, 255, 255, 0.603);">
-            <form action="/entrenar-modelo" method="POST">
-                <div class="row" style="width: 100%;  margin: 15px 0;">
-                    <div class="col">
-                        <label style="font-weight: bold;">Género:</label>
-                        <br>
-                        <input name="radiogenero" type="radio"/>
-                        <img src="../static/images/femenina.png" height="20px" width="20px">
-                        <input style="margin-left: 20px;" name="radiogenero" type="radio"/>
-                        <img src="../static/images/masculino.png" height="20px" width="23px">
-                        <br><br>
-                        <label style="font-weight: bold;">Nivel de estudios de tus tutores:</label>
-                        <br>
-                        <input name="radio" type="radio"/>
-                        <label for="radio">Básico</label>
-                        <input style="margin-left: 20px;" name="radio" type="radio"/>
-                        <label for="radio">Medio superior y más</label>
-                    </div>
-                    <div class="col">
-                        <br>
-                        <input name="hijos" type="checkbox"/>
-                        <label for="hijos">Tiene hijxs</label>
-                        <br>
-                        <br>
-                        <input name="independiente" type="checkbox"/>
-                        <label for="independiente">Es independiente</label>
-                        <br>
-                        <br>
-                        <input name="dificultad" type="checkbox"/>
-                        <label for="dificultad">Dificultad para conseguir trabajo</label>
-                    </div>
-
-                </div>
-            </form>
-        </div>
         
     </div>
 
@@ -70,8 +79,8 @@
     <script>
         function initMap() {
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 4,
-                center: { lat: 37.0902, lng: -95.7129 },
+                zoom: 13,
+                center: { lat: 21.126366, lng: -101.670125 },
             });
             setMarkers(map);
         }

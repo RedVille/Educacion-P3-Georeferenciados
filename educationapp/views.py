@@ -120,7 +120,7 @@ def get_data(request):
         # We replace the top level of study
         df.loc[df[current].str.contains('Nivel básico', case=False), current] = '1'
         df.loc[df[current].str.contains('Nivel medio superior', case=False), current] = '2'
-        df.loc[df[current].str.contains('Nivel superior', case=False), current] = '1'
+        df.loc[df[current].str.contains('Nivel superior', case=False), current] = '2'
         df.loc[df[current].str.contains('Posgrado', case=False), current] = '2'
 
     columns = ['¿En qué tipo de institución realizó sus estudios de nivel básico?',
@@ -246,37 +246,53 @@ def clusters(request):
 def svm(request):
     return render(request, "svm.html")
 
+@csrf_exempt
 def modeloSVM(request):
+    # Llamamos datos del modelo
+    personas = Person.objects.all().values()
+    dfPersonas = pd.DataFrame(personas)
 
-    # Cargar base de
-    bc = datasets.load_breast_cancer()
-    X = bc.data
-    y = bc.target
-    
-    # Crear conjuntos de entrenamiento y prueba
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1, stratify=y)
+    #Categorias
+    #Lista completa con personas 
+    #posgrado = dfPersonas[dfPersonas.estudios == 2]
+    datosGenerales = dfPersonas
 
-    #plt.scatter(X[:,0],X[:,1])
-    print(X[0:3,0],y[0])
+    if request.method == 'POST':
 
-    # Normalizar datos mediante z-score
-    sc = StandardScaler()
-    sc.fit(X_train)
-    X_train_std = sc.transform(X_train)
-    X_test_std = sc.transform(X_test)
+        #Agregar personas clasificadas
+        #HOMBRES
+        if request.POST.get('radiogenero') == "1":
+           datosGenerales = datosGenerales[datosGenerales.sexo == 1]
 
-    # Crear modelo de Support Vector Machine
-    svc = SVC(C=1.0, random_state=1, kernel='linear')
-    
-    # Entrenar modelo
-    svc.fit(X_train_std, y_train)
+        #MUJERES
+        if request.POST.get('radiogenero') == "2":
+           datosGenerales = datosGenerales[datosGenerales.sexo == 2]
 
-    # Prueba del modelo
-    y_predict = svc.predict(X_train_std)
-    
-    # Calcular rendimiento
-    
-    # print("Porcentaje de clasificación %.3f" %metrics.accuracy_score(y_test, y_predict))
-    print("Porcentaje de clasificación %.3f" %metrics.accuracy_score(y_train, y_predict))
+        #BASICO PADRES
+        if request.POST.get('radio') == "1":
+            datosGenerales = datosGenerales[datosGenerales.estudios_tutores == 1]
+        
+        #SUPERIOR PADRES
+        if request.POST.get('radio') == "2":
+            datosGenerales = datosGenerales[datosGenerales.estudios_tutores != 1]
+
+        #TIENE HIJOS
+        if request.POST.get('hijos') == "1":
+            datosGenerales = datosGenerales[datosGenerales.hijos != 0]
+
+        #INDEPENDIENTE
+        if request.POST.get('independiente') == "1":
+            datosGenerales = datosGenerales[datosGenerales.sexo == 1]
+
+        #DIFICULTAD CONSEGUIR TRABAJO
+        if request.POST.get('dificultad') == "1":
+           datosGenerales = datosGenerales[datosGenerales.dificultad_trabajo == 1]                                 
+        
+        print(dfPersonas.columns)
+        #personasPosgrado.append(posgrado)
+        #print(personasPosgrado)
+        return render(request, "svm.html",{ "personasPosgrado" : datosGenerales})
+
 
     return render(request, "svm.html")
+

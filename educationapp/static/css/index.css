@@ -30,9 +30,9 @@ body {
 }
 
 #map {
+    border-radius: 20px;
     margin: 0 auto;
-    height: 550px;
-    border-radius: 25px;
+    height: 70vh;
 }
 
 .float-button {
