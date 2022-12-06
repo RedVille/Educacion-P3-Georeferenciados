@@ -120,8 +120,8 @@ def get_data(request):
         # We replace the top level of study
         df.loc[df[current].str.contains('Nivel básico', case=False), current] = '1'
         df.loc[df[current].str.contains('Nivel medio superior', case=False), current] = '2'
-        df.loc[df[current].str.contains('Nivel superior', case=False), current] = '2'
-        df.loc[df[current].str.contains('Posgrado', case=False), current] = '2'
+        df.loc[df[current].str.contains('Nivel superior', case=False), current] = '3'
+        df.loc[df[current].str.contains('Posgrado', case=False), current] = '4'
 
     columns = ['¿En qué tipo de institución realizó sus estudios de nivel básico?',
           '¿En qué tipo de institución realizó sus estudios de nivel medio-superior?',
@@ -260,6 +260,11 @@ def modeloSVM(request):
 
     if request.method == 'POST':
 
+        markers_icons = [
+        "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+        ]
+
         #Agregar personas clasificadas
         #HOMBRES
         if request.POST.get('radiogenero') == "1":
@@ -288,14 +293,11 @@ def modeloSVM(request):
         #DIFICULTAD CONSEGUIR TRABAJO
         if request.POST.get('dificultad') == "1":
            datosGenerales = datosGenerales[datosGenerales.dificultad_trabajo == 1]                                 
-        
-        print(datosGenerales)
 
-       # personasPosgrado = datosGenerales[datosGenerales.estudios == 2]
-        #personasPosgrado.append(posgrado)
-        #print(personasPosgrado)
-        return render(request, "svm.html",{ "personasPosgrado" : datosGenerales})
+        personasPosgrado = datosGenerales[datosGenerales.estudios == 4]
+        personasNoPosgrado = datosGenerales[datosGenerales.estudios != 4]
 
+        return render(request, "svm.html",{ "personasPosgrado" : personasPosgrado, "personasNoPosgrado" : personasNoPosgrado})
 
-    return render(request, "svm.html")
+    return render(request, "svm.html",{ "personasPosgrado" : [], "personasNoPosgrado" : []})
 
