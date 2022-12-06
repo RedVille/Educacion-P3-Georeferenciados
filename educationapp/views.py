@@ -177,6 +177,7 @@ def get_data(request):
         person.retirado = row['¿Se encuentra o se encontraba muy retirado tu centros de estudios de tu hogar?']
         person.dificultad_trabajo = row['¿Has tenido alguna dificultad para conseguir trabajo?']
         person.repeticion_materia = row['¿Repetiste alguna materia en la escuela?']
+        person.independiente = row['¿Es independiente económicamente?']
         person.latitude = row['Lat']
         person.longitude = row['Lon']
         print(person)
@@ -250,12 +251,12 @@ def svm(request):
 def modeloSVM(request):
     # Llamamos datos del modelo
     personas = Person.objects.all().values()
-    dfPersonas = pd.DataFrame(personas)
+  #  dfPersonas = pd.DataFrame(personas)
 
     #Categorias
     #Lista completa con personas 
     #posgrado = dfPersonas[dfPersonas.estudios == 2]
-    datosGenerales = dfPersonas
+    datosGenerales = pd.DataFrame(personas)
 
     if request.method == 'POST':
 
@@ -282,13 +283,15 @@ def modeloSVM(request):
 
         #INDEPENDIENTE
         if request.POST.get('independiente') == "1":
-            datosGenerales = datosGenerales[datosGenerales.sexo == 1]
+            datosGenerales = datosGenerales[datosGenerales.independiente == 1]
 
         #DIFICULTAD CONSEGUIR TRABAJO
         if request.POST.get('dificultad') == "1":
            datosGenerales = datosGenerales[datosGenerales.dificultad_trabajo == 1]                                 
         
-        print(dfPersonas.columns)
+        print(datosGenerales)
+
+       # personasPosgrado = datosGenerales[datosGenerales.estudios == 2]
         #personasPosgrado.append(posgrado)
         #print(personasPosgrado)
         return render(request, "svm.html",{ "personasPosgrado" : datosGenerales})

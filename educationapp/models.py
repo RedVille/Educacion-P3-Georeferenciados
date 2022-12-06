@@ -16,6 +16,7 @@ class Person(models.Model):
     retirado = models.IntegerField()
     dificultad_trabajo = models.IntegerField()
     repeticion_materia = models.IntegerField()
+    independiente = models.IntegerField()
     latitude = models.DecimalField(max_digits=10, decimal_places=6)
     longitude = models.DecimalField(max_digits=10, decimal_places=6)
 
