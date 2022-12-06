@@ -8,6 +8,7 @@ import seaborn as sns
 import io
 import urllib, base64
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # scikit learn
 from sklearn.svm import SVC
@@ -196,7 +197,7 @@ def clusters(request):
     persons = Person.objects.all().values()
     df = pd.DataFrame(persons)
 
-    X = df.iloc[:, [15, 16]].values
+    X = df.iloc[:, [16, 17]].values
 
     # Usando Elbow para encontrar los clusters óptimos
     # Se determina el Valor WCSS
@@ -239,6 +240,8 @@ def clusters(request):
                 'lon': X[i][1],
                 "index": i
             })
+
+        print(x)
 
         return render(request, 'clusters.html', {'k': k, 'data': uri, 'y_kmeans': y_kmeans.tolist(), 'X': x, 'markers_icons': markers_icons})
 
@@ -300,7 +303,25 @@ def modeloSVM(request):
         #personasPosgrado = datosGenerales[datosGenerales.estudios == 4]
         #personasNoPosgrado = datosGenerales[datosGenerales.estudios != 4]
 
-        return render(request, "svm.html",{ "datosGenerales" : datosGenerales, 'markers_icons': markers_icons})
+        result = []
+        for i in range(0, len(datosGenerales)):
+            result.append({
+                'lat': datosGenerales.iloc[i]['latitude'],
+                'lon': datosGenerales.iloc[i]['longitude'],
+                'estudios': datosGenerales.iloc[i]['estudios'],
+                "index": i
+            })
 
-    return render(request, "svm.html",{ "datosGenerales" : [], 'markers_icons': markers_icons})
+        return render(request, "svm.html",{ "datosGenerales" : result, 'markers_icons': markers_icons})
+
+    result = []
+    for i in range(0, len(datosGenerales)):
+        result.append({
+            'lat': datosGenerales.iloc[i]['latitude'],
+            'lon': datosGenerales.iloc[i]['longitude'],
+            'estudios': datosGenerales.iloc[i]['estudios'],
+            "index": i
+        })
+
+    return render(request, "svm.html",{ "datosGenerales" : result, 'markers_icons': markers_icons})
 

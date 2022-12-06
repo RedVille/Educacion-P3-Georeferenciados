@@ -82,21 +82,21 @@
                 zoom: 13,
                 center: { lat: 21.126366, lng: -101.670125 },
             });
-            //setMarkers(map);
+            setMarkers(map);
         }
 
         function setMarkers(map) {            
             {% for point in datosGenerales %}
-                const icon{{ point.id }} = {
-                    url: {{ markers_icons | safe }}[{{ point.estudios | safe }}],
+                const icon{{ point.index }} = {
+                    url: {{ markers_icons | safe }}[{{ point.estudios }}],
                     scaledSize: new google.maps.Size(25, 25),
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(0, 0),
                 };
-                const marker{{ point.id }} = new google.maps.Marker({
-                    position: { lat: {{ point.latitude }}, lng: {{ point.longitude }} },
+                const marker{{ point.index }} = new google.maps.Marker({
+                    position: { lat: {{ point.lat }}, lng: {{ point.lon }} },
                     map,
-                    icon: icon{{ point.id }},
+                    icon: icon{{ point.index }},
                 });
             {% endfor %}
         }
